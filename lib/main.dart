@@ -1,3 +1,4 @@
+import 'package:clean_note_app_2/presentation/notes/notes_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'util/color_scheme.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: darkColorScheme,
       ),
       themeMode: ThemeMode.system,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const NotesScreen(),
     );
   }
 }

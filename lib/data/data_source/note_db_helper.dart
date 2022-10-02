@@ -1,6 +1,5 @@
+import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../../domain/model/note.dart';
 
 class NoteDbHelper {
   Database db;

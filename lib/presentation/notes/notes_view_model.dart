@@ -1,9 +1,9 @@
+import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/domain/repository/note_repository.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_event.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_state.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/model/note.dart';
 
 class NotesViewModel with ChangeNotifier {
   // use_case 사용 않고, repository로 mvvm 형태로 처리하는 경우

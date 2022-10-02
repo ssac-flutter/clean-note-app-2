@@ -1,6 +1,5 @@
+import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../domain/model/note.dart';
 
 part 'notes_event.freezed.dart';
 

@@ -1,6 +1,5 @@
+import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/domain/repository/note_repository.dart';
-
-import '../model/note.dart';
 
 class GetNote {
   final NoteRepository repository;
