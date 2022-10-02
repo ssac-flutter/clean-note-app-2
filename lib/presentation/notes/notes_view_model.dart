@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../../domain/model/note.dart';
 
 class NotesViewModel with ChangeNotifier {
-  // use_case 사용 않고, repository로만 mvvm 형태로 처리하는 경우
+  // use_case 사용 않고, repository로 mvvm 형태로 처리하는 경우
   final NoteRepository repository;
 
   // @Default([]) 지정한 경우
