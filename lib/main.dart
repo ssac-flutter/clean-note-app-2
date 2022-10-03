@@ -10,12 +10,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // 의존성 수정은 di에서 하면 됨
-  final providers = await getProviders();
+  // final providers = await getProviders();
+  // runApp(
+  //   MultiProvider(
+  //     providers: providers,
+  //     child: const MyApp(),
+  //   ),
+  // );
+
+  await setupDi();
+
   runApp(
-    MultiProvider(
-      providers: providers,
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 

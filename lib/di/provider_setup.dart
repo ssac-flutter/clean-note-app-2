@@ -9,16 +9,24 @@ import 'package:clean_note_app_2/domain/use_case/update_note_use_case.dart';
 import 'package:clean_note_app_2/domain/use_case/use_cases.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_view_model.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
+import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 
-// db가 먼저 작성되어야 함, main에서 getProvider()를 호출해서 사용한다
-Future<List<SingleChildWidget>> getProviders() async {
-  // 'note_db' : 파일명
-  Database database =
-      await openDatabase('note_db', version: 1, onCreate: (db, version) async {
-    await db.execute('''
+// 탑레벨에서 db 먼저 작성 후 main에서 getProvider()를 호출해서 사용한다
+// Future<List<SingleChildWidget>> getProviders() async {
+
+// GetIt 의존성 주입
+final getIt = GetIt.I;
+
+Future<void> setupDi() async {
+  Database database = await openDatabase(
+    'note_db',
+    version: 1,
+    onCreate: (
+      db,
+      version,
+    ) async {
+      await db.execute('''
       CREATE TABLE note (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
@@ -27,24 +35,51 @@ Future<List<SingleChildWidget>> getProviders() async {
         timestamp INTEGER
     )
       ''');
-  });
-
-  NoteDbHelper noteDbHelper = NoteDbHelper(database);
-  NoteRepository repository = NoteRepositoryImpl(noteDbHelper);
-  UseCases useCases = UseCases(
-    addNote: AddNoteUseCase(repository),
-    deleteNote: DeleteNoteUseCase(repository),
-    getNote: GetNoteUseCase(repository),
-    getNotes: GetNotesUseCase(repository),
-    updateNote: UpdateNoteUseCase(repository),
+    },
   );
-  NotesViewModel notesViewModel = NotesViewModel(useCases);
-  AddEditNoteViewModel addEditNoteViewModel = AddEditNoteViewModel(repository);
 
-  return [
-    ChangeNotifierProvider(create: (_) => notesViewModel),
-    // ChangeNotifierProvider(create: (_) => addEditNoteViewModel)
-    Provider(create: (_) => repository),
-  ];
+  // NoteDbHelper noteDbHelper = NoteDbHelper(database);
+  getIt.registerSingleton<Database>(database);
 
+  //NoteRepository repository = NoteRepositoryImpl(noteDbHelper);
+  getIt.registerSingleton<NoteDbHelper>(NoteDbHelper((getIt.get<Database>())));
+  getIt.registerSingleton<NoteRepository>(
+      NoteRepositoryImpl(getIt.get<NoteDbHelper>()));
+
+  // UseCases useCases = UseCases(
+  //   addNote: AddNoteUseCase(repository),
+  //   deleteNote: DeleteNoteUseCase(repository),
+  //   getNote: GetNoteUseCase(repository),
+  //   getNotes: GetNotesUseCase(repository),
+  //   updateNote: UpdateNoteUseCase(repository),
+  // );
+  getIt.registerSingleton<AddNoteUseCase>(
+      AddNoteUseCase(getIt.get<NoteRepository>()));
+  getIt.registerSingleton<DeleteNoteUseCase>(
+      DeleteNoteUseCase(getIt.get<NoteRepository>()));
+  getIt.registerSingleton<GetNoteUseCase>(
+      GetNoteUseCase(getIt.get<NoteRepository>()));
+  getIt.registerSingleton<GetNotesUseCase>(
+      GetNotesUseCase(getIt.get<NoteRepository>()));
+  getIt.registerSingleton<UpdateNoteUseCase>(
+      UpdateNoteUseCase(getIt.get<NoteRepository>()));
+
+  // NotesViewModel notesViewModel = NotesViewModel(useCases);
+  getIt.registerFactory(() => NotesViewModel(UseCases(
+        addNote: getIt.get<AddNoteUseCase>(),
+        deleteNote: getIt.get<DeleteNoteUseCase>(),
+        getNote: getIt.get<GetNoteUseCase>(),
+        getNotes: getIt.get<GetNotesUseCase>(),
+        updateNote: getIt.get<UpdateNoteUseCase>(),
+      )));
+
+  // AddEditNoteViewModel addEditNoteViewModel = AddEditNoteViewModel(repository);
+  getIt
+      .registerFactory(() => AddEditNoteViewModel(getIt.get<NoteRepository>()));
+
+  // return [
+  //   ChangeNotifierProvider(create: (_) => notesViewModel),
+  //   // ChangeNotifierProvider(create: (_) => addEditNoteViewModel)
+  //   Provider(create: (_) => repository),
+  // ];
 }
