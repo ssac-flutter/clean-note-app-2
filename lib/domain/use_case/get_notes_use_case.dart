@@ -9,6 +9,8 @@ class GetNotesUseCase {
 
   Future<List<Note>> call() async {
     List<Note> notes = await repository.getNotes();
+    // 정렬
+    notes.sort((a,b) => -a.timestamp.compareTo(b.timestamp));
     return notes;
   }
 
