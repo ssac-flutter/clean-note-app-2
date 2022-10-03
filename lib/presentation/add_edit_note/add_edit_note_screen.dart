@@ -25,6 +25,10 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   @override
   void initState() {
     super.initState();
+    // navPush로 넘어온 note 값을 받아주는 기능
+    _titleController.text = widget.note!.title;
+    _contentController.text = widget.note!.content;
+
 
     Future.microtask(() {
       final viewModel = context.read<AddEditNoteViewModel>();

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:clean_note_app_2/presentation/notes/components/note_item.dart';
@@ -49,22 +51,36 @@ class NotesScreen extends StatelessWidget {
           children:
               // NoteItem({Key? key, required this.note, this.onDeleteTap,})
               state.notes
-                  .map((note) => NoteItem(
-                        note: note,
-                        onDeleteTap: () {
-                          viewModel.onEvent(NotesEvent.deleteNote(note));
-
-                          final snackBar = SnackBar(
-                            content: const Text('노트가 삭제도있습니다'),
-                            action: SnackBarAction(
-                              label: '취소',
-                              onPressed: () {
-                                viewModel.onEvent(const NotesEvent.restoreNote());
-                              },
+                  .map((note) => GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AddEditNoteScreen(note: note),
+                              // 페이지 넘어가면, initState()에서 받아서 호출
                             ),
                           );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         },
+                        child: NoteItem(
+                          note: note,
+                          onDeleteTap: () {
+                            viewModel.onEvent(NotesEvent.deleteNote(note));
+
+                            final snackBar = SnackBar(
+                              content: const Text('노트가 삭제도있습니다'),
+                              action: SnackBarAction(
+                                label: '취소',
+                                onPressed: () {
+                                  viewModel
+                                      .onEvent(const NotesEvent.restoreNote());
+                                },
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                        ),
                       ))
                   .toList(),
         ),
