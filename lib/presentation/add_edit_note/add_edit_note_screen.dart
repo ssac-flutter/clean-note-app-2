@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_event.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_view_model.dart';
@@ -17,6 +19,8 @@ class AddEditNoteScreen extends StatefulWidget {
 class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+  // eventStream이 계속 listen하는 것을 막아주는 변수
+  StreamSubscription? _streamSubscription;
 
   @override
   void initState() {
@@ -25,7 +29,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     Future.microtask(() {
       final viewModel = context.read<AddEditNoteViewModel>();
       // viewModel을 read로 불러올 때는 Stream으로 작성
-      viewModel.eventSteam.listen((event) {
+      _streamSubscription = viewModel.eventSteam.listen((event) {
         event.when(saveNote: (){
           // true: saveNote로 이벤트 처리했음을 전달
           Navigator.pop(context, true);
@@ -38,6 +42,9 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   }
   @override
   void dispose() {
+    // _streamSubscription이 있다면 cancel() 처리 후
+    // 다음번에 들어올때 다시 listen한다
+    _streamSubscription?.cancel();
     _titleController.dispose();
     _contentController.dispose();
     super.dispose();
