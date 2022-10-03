@@ -1,14 +1,20 @@
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:clean_note_app_2/presentation/notes/components/note_item.dart';
+import 'package:clean_note_app_2/presentation/notes/notes_view_model.dart';
 import 'package:clean_note_app_2/ui/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NotesScreen extends StatelessWidget {
   const NotesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<NotesViewModel>();
+    // state에는 notes 데이터가 들어있고, ListView에서 map()으로 NoteItem()에 뿌려줌
+    final state = viewModel.state;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your note', style: TextStyle(fontSize: 30),),
@@ -32,25 +38,11 @@ class NotesScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
-          children: [
-         // NoteItem({Key? key, required this.note, this.onDeleteTap,}) : super(key: key);
-            NoteItem(
-              note: Note(
-                title: 'title1',
-                content: 'content1',
-                color: wisteria.value,
-                timestamp: 1,
-              ),
-            ),
-            NoteItem(
-              note: Note(
-                title: 'title2',
-                content: 'content2',
-                color: skyBlue.value,
-                timestamp: 2,
-              ),
-            ),
-          ],
+          children:
+          // NoteItem({Key? key, required this.note, this.onDeleteTap,})
+            state.notes.map((note) =>NoteItem(
+              note: note,
+            ) ).toList(),
         ),
       ),
     );

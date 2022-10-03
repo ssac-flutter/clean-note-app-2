@@ -18,7 +18,10 @@ class NotesViewModel with ChangeNotifier {
 
   Note? _recentlyDeletedNote;
 
-  NotesViewModel(this.repository);
+  // 생성자에서 loadNotes()를 호출하여 화면 시작되면 뿌려준다.
+  NotesViewModel(this.repository) {
+    _loadNotes();
+  }
 
   // notes_screen에 필요한 3가지 이벤트 메서드를 만들 수 있지만, 휴먼 에러 방지를 위해
   // sealedClass로 notes_event를 만들어놓고 사용하는 것이 안전함.
