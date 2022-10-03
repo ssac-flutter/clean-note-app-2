@@ -18,6 +18,7 @@ void main() async {
   //   ),
   // );
 
+  // injectable 사용
   await setupDi();
 
   runApp(
