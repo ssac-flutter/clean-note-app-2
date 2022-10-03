@@ -1,9 +1,11 @@
 import 'package:clean_note_app_2/domain/model/note.dart';
+import 'package:clean_note_app_2/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 class NoteItem extends StatelessWidget {
   final Note note;
   Function? onDeleteTap;
+
   // 반드시 Function 구현하려면 nullable(?)을 빼면 됨
 
   NoteItem({
@@ -33,14 +35,18 @@ class NoteItem extends StatelessWidget {
                   note.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                        color: darkGray,
+                      ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   note.content,
                   maxLines: 10,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        color: darkGray,
+                      ),
                 ),
               ],
             ),

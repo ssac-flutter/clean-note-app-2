@@ -106,6 +106,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   ),
               decoration: const InputDecoration(
                 hintText: '제목을 입력하세요',
+                hintStyle: TextStyle(color: Colors.black),
                 border: InputBorder.none,
               ),
             ),
