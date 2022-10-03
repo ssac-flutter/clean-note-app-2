@@ -13,6 +13,7 @@ class NotesState with _$NotesState {
     // @Default([]) List<Note> notes,
     required List<Note> notes,
     required NoteOrder noteOrder,
+    required bool isOrderSectionVisible,
   }) = _NotesState;
 
 // factory NotesState.fromJson(Map<String, Object?> json) => _$NotesStateFromJson(json);

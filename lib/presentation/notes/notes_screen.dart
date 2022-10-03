@@ -24,7 +24,10 @@ class NotesScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            // notes_event에 toggleOrderSection추가
+            onPressed: () {
+              viewModel.onEvent(const NotesEvent.toggleOrderSection());
+            },
             icon: const Icon(Icons.sort),
           ),
         ],
@@ -47,13 +50,18 @@ class NotesScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            OrderSection(
-              noteOrder: state.noteOrder,
-              onOrderChanged: (noteOrder) {
-                viewModel.onEvent(NotesEvent.changeOrder(noteOrder));
-              },
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              // notes_state에 상태 추가 isOrderSectionVisible,
+              child: state.isOrderSectionVisible
+                  ? OrderSection(
+                      noteOrder: state.noteOrder,
+                      onOrderChanged: (noteOrder) {
+                        viewModel.onEvent(NotesEvent.changeOrder(noteOrder));
+                      },
+                    )
+                  : Container(),
             ),
-            // List 안에 List 넣을 때 ... 사용
             ...state.notes
                 .map((note) => GestureDetector(
                       onTap: () async {
