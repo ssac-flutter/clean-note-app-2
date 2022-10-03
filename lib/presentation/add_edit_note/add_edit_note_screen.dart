@@ -9,7 +9,6 @@ class AddEditNoteScreen extends StatefulWidget {
 }
 
 class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
-
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
 
@@ -34,7 +33,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
         padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
         color: _color,
         child: Column(
@@ -44,25 +43,26 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
               children: noteColors
                   .map(
                     (color) => InkWell(
-                  onTap: () {
-                    setState(() {
-                      _color = color;
-                    });
-                  },
-                  child: _buildBackgroundColor(
-                    color: color,
-                    selected: _color == color,
-                  ),
-                ),
-              )
+                      onTap: () {
+                        setState(() {
+                          _color = color;
+                        });
+                      },
+                   // Widget _buildBackgroundColor({required Color color, required bool selected})
+                      child: _buildBackgroundColor(
+                        color: color,
+                        selected: _color == color,
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
             TextField(
               controller: _titleController,
               maxLines: 1,
               style: Theme.of(context).textTheme.headline5!.copyWith(
-                color: darkGray,
-              ),
+                    color: darkGray,
+                  ),
               decoration: const InputDecoration(
                 hintText: '제목을 입력하세요',
                 border: InputBorder.none,
@@ -72,8 +72,8 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
               controller: _contentController,
               maxLines: null,
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                color: darkGray,
-              ),
+                    color: darkGray,
+                  ),
               decoration: const InputDecoration(
                 hintText: '내용을 입력하세요',
                 border: InputBorder.none,
@@ -89,10 +89,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     );
   }
 
-  Widget _buildBackgroundColor({
-    required Color color,
-    required bool selected,
-  }) {
+  Widget _buildBackgroundColor({required Color color, required bool selected}) {
     return Container(
       width: 48,
       height: 48,
@@ -108,9 +105,9 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
         ],
         border: selected
             ? Border.all(
-          color: Colors.black,
-          width: 2.0,
-        )
+                color: Colors.black,
+                width: 2.0,
+              )
             : null,
       ),
     );

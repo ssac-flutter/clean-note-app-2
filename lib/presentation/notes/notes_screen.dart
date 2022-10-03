@@ -33,6 +33,7 @@ class NotesScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
+         // NoteItem({Key? key, required this.note, this.onDeleteTap,}) : super(key: key);
             NoteItem(
               note: Note(
                 title: 'title1',
