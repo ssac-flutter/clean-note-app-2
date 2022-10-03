@@ -13,17 +13,17 @@ class NotesViewModel with ChangeNotifier {
   // use_case 사용 않고, repository로 mvvm 형태로 처리하는 경우
   // final NoteRepository repository;
 
-  // use_case 사용하는 경우 위 repository는 use_case에서 사용한다
+  // use_case 사용하는 경우 위 repository는 use_case class에서 사용한다
   // final GetNotesUseCase getNotes;
   // final DeleteNoteUseCase deleteNote;
   // final AddNoteUseCase addNote;
 
   final UseCases useCases;
 
-  // @Default([]) 지정한 경우
+  // @Default([]) 지정한 경우 아래처럼
   // NotesState _state = NotesState();
   // required로 state 생성한 경우 초기값 넣어줘야 함
-  NotesState _state = NotesState(notes: []);
+  NotesState _state = const NotesState(notes: []);
 
   NotesState get state => _state;
 
@@ -40,7 +40,7 @@ class NotesViewModel with ChangeNotifier {
     event.when(
       loadNotes: _loadNotes,
       deleteNote: _delteNote,
-      restoreNote: _resotreNote,
+      restoreNote: _restoreNote,
     );
   }
 
@@ -71,7 +71,7 @@ class NotesViewModel with ChangeNotifier {
   }
 
   // delete한 데이터를 _recentlyDeletedNote 변수에 따로 저장했다가 불러오면 됨
-  Future<void> _resotreNote() async {
+  Future<void> _restoreNote() async {
     if (_recentlyDeletedNote != null) {
       // await repository.insertNote(_recentlyDeletedNote!);
       // await addNote(_recentlyDeletedNote!);
