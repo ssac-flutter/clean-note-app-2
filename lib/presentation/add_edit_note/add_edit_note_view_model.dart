@@ -12,11 +12,13 @@ class AddEditNoteViewModel with ChangeNotifier {
   final NoteRepository repository;
 
   int _color = roseBud.value;
+
   int get color => _color;
 
   // 이벤트 발생할 때마다 _eventController에 넣어서 ui initState()에 전달할때
   // 여러번 listen할 수 있게 하는 broadcast()와 screen에서 한번만 불러오게 하는 Subscription 처리한다
   final _eventController = StreamController<AddEditNoteUiEvent>.broadcast();
+
   Stream<AddEditNoteUiEvent> get eventSteam => _eventController.stream;
 
   AddEditNoteViewModel(this.repository);
@@ -33,18 +35,21 @@ class AddEditNoteViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _saveNote(
-    int? id,
-    String title,
-    String content,
-  ) async {
+  Future<void> _saveNote(int? id, String title, String content) async {
+    if (title.isEmpty || content.isEmpty) {
+      _eventController.add(
+        const AddEditNoteUiEvent.showSnackBar('제목이나 내용이 비어있습니다'),);
+      return;
+    }
     if (id == null) {
       await repository.insertNote(
         Note(
           title: title,
           content: content,
           color: _color,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
+          timestamp: DateTime
+              .now()
+              .millisecondsSinceEpoch,
         ),
       );
     } else {
@@ -55,7 +60,9 @@ class AddEditNoteViewModel with ChangeNotifier {
           title: title,
           content: content,
           color: _color,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
+          timestamp: DateTime
+              .now()
+              .millisecondsSinceEpoch,
         ),
       );
     }

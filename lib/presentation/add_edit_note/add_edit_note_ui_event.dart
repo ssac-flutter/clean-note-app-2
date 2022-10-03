@@ -7,4 +7,5 @@ part 'add_edit_note_ui_event.freezed.dart';
 class AddEditNoteUiEvent with _$AddEditNoteUiEvent {
   // add_screen에서 initeState()로 처리
   const factory AddEditNoteUiEvent.saveNote() = SaveNote;
+  const factory AddEditNoteUiEvent.showSnackBar(String message) = ShowSnackBar;
 }

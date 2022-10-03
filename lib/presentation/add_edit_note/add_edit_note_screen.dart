@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class AddEditNoteScreen extends StatefulWidget {
   // Note가 비어있을 수도 있으니, 널러블로 처리
   final Note? note;
+
   const AddEditNoteScreen({Key? key, this.note}) : super(key: key);
 
   @override
@@ -19,6 +20,7 @@ class AddEditNoteScreen extends StatefulWidget {
 class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+
   // eventStream이 계속 listen하는 것을 막아주는 변수
   StreamSubscription? _streamSubscription;
 
@@ -33,16 +35,18 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
       final viewModel = context.read<AddEditNoteViewModel>();
       // viewModel을 read로 불러올 때는 Stream으로 작성
       _streamSubscription = viewModel.eventSteam.listen((event) {
-        event.when(saveNote: (){
+        event.when(saveNote: () {
           // true: saveNote로 이벤트 처리했음을 전달
           Navigator.pop(context, true);
           // notes_screen에서 isSaved 삼항연산으로 구분 처리
+        }, showSnackBar: (String message) {
+          final snackBar = SnackBar(content: Text(message));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         });
       });
-
     });
-
   }
+
   @override
   void dispose() {
     // _streamSubscription이 있다면 cancel() 처리 후
@@ -119,13 +123,6 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (_titleController.text.isEmpty ||
-              _contentController.text.isEmpty) {
-            const snackBar = SnackBar(content: Text('제목이나 내용이 비어 있습니다'));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            return;
-          }
-
           viewModel.onEvent(AddEditNoteEvent.saveNote(
             widget.note == null ? null : widget.note!.id,
             _titleController.text,
