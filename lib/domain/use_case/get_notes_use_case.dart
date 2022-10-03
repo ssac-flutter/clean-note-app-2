@@ -15,15 +15,44 @@ class GetNotesUseCase {
 
   // const factory NoteOrder.title(OrderType orderType)
   Future<List<Note>> call(NoteOrder noteOrder) async {
-    noteOrder.when(
-      title: (orderType) {},
-      date: (orderType) {},
-      color: (orderType) {},
-    );
-
     List<Note> notes = await repository.getNotes();
 
-    notes.sort((a, b) => -a.timestamp.compareTo(b.timestamp));
+    // NotesState에 NoteOrder 상태추가 => viewModel에 넘겨준다
+    noteOrder.when(
+      title: (orderType) {
+        orderType.when(
+          ascending: () {
+            notes.sort((a, b) => a.title.compareTo(b.title));
+          },
+          descending: () {
+            notes.sort((a, b) => -a.title.compareTo(b.title));
+          },
+        );
+
+      },
+      date: (orderType) {
+        orderType.when(
+          ascending: () {
+            notes.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+          },
+          descending: () {
+            notes.sort((a, b) => -a.timestamp.compareTo(b.timestamp));
+          },
+        );
+      },
+      color: (orderType) {
+        orderType.when(
+          ascending: () {
+            notes.sort((a, b) => a.color.compareTo(b.color));
+          },
+          descending: () {
+            notes.sort((a, b) => -a.color.compareTo(b.color));
+          },
+        );
+      },
+    );
+
+
     return notes;
   }
 }

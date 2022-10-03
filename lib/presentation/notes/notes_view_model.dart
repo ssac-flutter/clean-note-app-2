@@ -4,10 +4,11 @@ import 'package:clean_note_app_2/domain/use_case/add_note_use_case.dart';
 import 'package:clean_note_app_2/domain/use_case/delete_note_use_case.dart';
 import 'package:clean_note_app_2/domain/use_case/get_notes_use_case.dart';
 import 'package:clean_note_app_2/domain/use_case/use_cases.dart';
+import 'package:clean_note_app_2/domain/util/note_order.dart';
+import 'package:clean_note_app_2/domain/util/order_type.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_event.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_state.dart';
 import 'package:flutter/material.dart';
-
 
 class NotesViewModel with ChangeNotifier {
   // use_case 사용 않고, repository로 mvvm 형태로 처리하는 경우
@@ -23,7 +24,10 @@ class NotesViewModel with ChangeNotifier {
   // @Default([]) 지정한 경우 아래처럼
   // NotesState _state = NotesState();
   // required로 state 생성한 경우 초기값 넣어줘야 함
-  NotesState _state = const NotesState(notes: []);
+  NotesState _state = const NotesState(
+    notes: [],
+    noteOrder: NoteOrder.date(OrderType.descending()),
+  );
 
   NotesState get state => _state;
 
@@ -46,12 +50,15 @@ class NotesViewModel with ChangeNotifier {
 
   // const factory NotesState({
   // required List<Note> notes,}) = _NotesState;
+
   Future<void> _loadNotes() async {
     // getNotesUseCase.call()은 생략 가능
     // List<Note> notes = await getNotes();
-    List<Note> notes = await useCases.getNotes();
+
+    // notes_state에 noteOrder 추가한 후 인자로 받아옴옴
+   List<Note> notes = await useCases.getNotes(state.noteOrder);
+
     //List<Note> notes = await repository.getNotes();
-    // 정렬
     //notes.sort((a,b) => -a.timestamp.compareTo(b.timestamp));await repository.getNotes();
 
     _state = state.copyWith(
