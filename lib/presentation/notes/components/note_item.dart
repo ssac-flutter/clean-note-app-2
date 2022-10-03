@@ -35,7 +35,7 @@ class NoteItem extends StatelessWidget {
                   note.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                  style: Theme.of(context).textTheme.headline5!.apply(
                         color: darkGray,
                       ),
                 ),
@@ -44,7 +44,7 @@ class NoteItem extends StatelessWidget {
                   note.content,
                   maxLines: 10,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  style: Theme.of(context).textTheme.bodyText2!.apply(
                         color: darkGray,
                       ),
                 ),
