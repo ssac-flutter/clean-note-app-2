@@ -29,7 +29,6 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     _titleController.text = widget.note!.title;
     _contentController.text = widget.note!.content;
 
-
     Future.microtask(() {
       final viewModel = context.read<AddEditNoteViewModel>();
       // viewModel을 read로 불러올 때는 Stream으로 작성
@@ -124,6 +123,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
               _contentController.text.isEmpty) {
             const snackBar = SnackBar(content: Text('제목이나 내용이 비어 있습니다'));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            return;
           }
 
           viewModel.onEvent(AddEditNoteEvent.saveNote(

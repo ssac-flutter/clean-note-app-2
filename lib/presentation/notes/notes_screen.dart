@@ -1,11 +1,7 @@
-import 'dart:html';
-
-import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:clean_note_app_2/presentation/notes/components/note_item.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_event.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_view_model.dart';
-import 'package:clean_note_app_2/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,8 +48,8 @@ class NotesScreen extends StatelessWidget {
               // NoteItem({Key? key, required this.note, this.onDeleteTap,})
               state.notes
                   .map((note) => GestureDetector(
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async{
+                          bool? isSaved = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
@@ -61,6 +57,10 @@ class NotesScreen extends StatelessWidget {
                               // 페이지 넘어가면, initState()에서 받아서 호출
                             ),
                           );
+
+                          if (isSaved != null && isSaved) {
+                            viewModel.onEvent(const NotesEvent.loadNotes());
+                          }
                         },
                         child: NoteItem(
                           note: note,
