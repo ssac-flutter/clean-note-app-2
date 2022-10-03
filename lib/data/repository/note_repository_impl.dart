@@ -1,7 +1,9 @@
 import 'package:clean_note_app_2/data/data_source/note_db_helper.dart';
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/domain/repository/note_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@Singleton(as: NoteRepository)
 class NoteRepositoryImpl implements NoteRepository {
   final NoteDbHelper db;
 

@@ -1,5 +1,4 @@
-import 'package:clean_note_app_2/di/provider_setup.dart';
-import 'package:clean_note_app_2/domain/repository/note_repository.dart';
+import 'package:clean_note_app_2/di/di_setup.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:clean_note_app_2/presentation/notes/components/note_item.dart';
@@ -47,10 +46,6 @@ class NotesScreen extends StatelessWidget {
                 //    builder: (context) => const AddEditNoteScreen()));
                 MaterialPageRoute(
                   builder: (context) {
-                    // final repository = context.read<NoteRepository>();
-                    // const nextScreen = AddEditNoteScreen();
-                    // final viewModel = AddEditNoteViewModel(repository);
-
                     return ChangeNotifierProvider(
                       create: (_) => getIt.get<AddEditNoteViewModel>(),
                       child: const AddEditNoteScreen(),

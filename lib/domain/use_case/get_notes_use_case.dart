@@ -1,10 +1,12 @@
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/domain/repository/note_repository.dart';
 import 'package:clean_note_app_2/domain/util/note_order.dart';
+import 'package:injectable/injectable.dart';
 
 // enum NoteOrder { title, date, color }
 // enum OrderType { ascending, descending }
 
+@singleton
 class GetNotesUseCase {
   // note_repository 인터페이스 활용하여, 모든 메서드가 가지고 있는 call() 메서드 재정의 한다
   // view_model에서 사용하는 repository는 삭제한다

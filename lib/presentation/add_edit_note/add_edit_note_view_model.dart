@@ -7,7 +7,9 @@ import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_state.
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_ui_event.dart';
 import 'package:clean_note_app_2/ui/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class AddEditNoteViewModel with ChangeNotifier {
   // mvvm 방식, use_case 사용안하는 경우
   final NoteRepository repository;

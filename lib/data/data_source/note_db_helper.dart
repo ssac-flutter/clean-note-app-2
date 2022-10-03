@@ -1,6 +1,8 @@
 import 'package:clean_note_app_2/domain/model/note.dart';
+import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 
+@singleton
 class NoteDbHelper {
   Database db;
 

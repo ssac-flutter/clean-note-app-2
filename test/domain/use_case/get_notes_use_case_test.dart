@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/domain/repository/note_repository.dart';
 import 'package:clean_note_app_2/domain/use_case/get_notes_use_case.dart';

@@ -7,7 +7,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   // Init ffi loader if needed.
   sqfliteFfiInit();
-  try {
+
     test('db test', () async {
       var databaseFactory = databaseFactoryFfi;
       var db = await databaseFactory.openDatabase(inMemoryDatabasePath);
@@ -48,7 +48,4 @@ void main() {
 
       await db.close();
     });
-  } catch (e, s) {
-    print(s);
-  }
 }

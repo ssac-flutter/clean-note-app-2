@@ -1,8 +1,6 @@
-import 'package:clean_note_app_2/di/provider_setup.dart';
+import 'package:clean_note_app_2/di/di_setup.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'util/color_scheme.dart';
 
 void main() async {
@@ -19,8 +17,8 @@ void main() async {
   // );
 
   // injectable 사용
-  await setupDi();
-
+  // await setupDi();
+  await configureDependencies();
   runApp(
     const MyApp(),
   );

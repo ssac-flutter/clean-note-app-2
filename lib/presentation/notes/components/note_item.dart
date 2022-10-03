@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 class NoteItem extends StatelessWidget {
   final Note note;
   Function? onDeleteTap;
-
   // 반드시 Function 구현하려면 nullable(?)을 빼면 됨
-
   NoteItem({
     Key? key,
     required this.note,

@@ -1,15 +1,13 @@
 import 'package:clean_note_app_2/domain/model/note.dart';
-import 'package:clean_note_app_2/domain/repository/note_repository.dart';
-import 'package:clean_note_app_2/domain/use_case/add_note_use_case.dart';
-import 'package:clean_note_app_2/domain/use_case/delete_note_use_case.dart';
-import 'package:clean_note_app_2/domain/use_case/get_notes_use_case.dart';
 import 'package:clean_note_app_2/domain/use_case/use_cases.dart';
 import 'package:clean_note_app_2/domain/util/note_order.dart';
 import 'package:clean_note_app_2/domain/util/order_type.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_event.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_state.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class NotesViewModel with ChangeNotifier {
   // use_case 사용 않고, repository로 mvvm 형태로 처리하는 경우
   // final NoteRepository repository;
@@ -44,7 +42,7 @@ class NotesViewModel with ChangeNotifier {
   void onEvent(NotesEvent event) {
     event.when(
       loadNotes: _loadNotes,
-      deleteNote: _delteNote,
+      deleteNote: _deleteNote,
       restoreNote: _restoreNote,
       changeOrder: (NoteOrder noteOrder) {
         _state = state.copyWith(
@@ -81,7 +79,7 @@ class NotesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _delteNote(Note note) async {
+  Future<void> _deleteNote(Note note) async {
     // await repository.deleteNote(note); // useCase에서 repository 사용
     // await deleteNote(note);
     await useCases.deleteNote(note);
