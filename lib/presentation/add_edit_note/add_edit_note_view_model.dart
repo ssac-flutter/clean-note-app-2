@@ -16,21 +16,31 @@ class AddEditNoteViewModel with ChangeNotifier {
   // int get color => _color;
 
   AddEditNoteState _state = AddEditNoteState(color: roseBud.value);
-
   AddEditNoteState get state => _state;
+
+  AddEditNoteViewModel(this.repository);
+
 
   // 이벤트 발생할 때마다 _eventController에 넣어서 ui initState()에 전달할때
   // 여러번 listen할 수 있게 하는 broadcast()와 screen에서 한번만 불러오게 하는 Subscription 처리한다
-  final _eventController = StreamController<AddEditNoteUiEvent>.broadcast();
 
+  final _eventController = StreamController<AddEditNoteUiEvent>.broadcast();
   Stream<AddEditNoteUiEvent> get eventSteam => _eventController.stream;
 
-  AddEditNoteViewModel(this.repository, {Note? note}) {
-     _state = state.copyWith (
-       note: note,
-       color: note?.color ?? roseBud.value,
-     );
-     notifyListeners();
+  // AddEditNoteViewModel(this.repository, {Note? note}) {
+  //    _state = state.copyWith (
+  //      note: note,
+  //      color: note?.color ?? roseBud.value,
+  //    );
+  //    notifyListeners();
+  // }
+
+  void setNote(Note note) {
+    _state = state.copyWith(
+      note: note,
+      color: note.color,
+    );
+    notifyListeners();
   }
 
   void onEvent(AddEditNoteEvent event) {

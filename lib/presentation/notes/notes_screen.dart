@@ -78,8 +78,7 @@ class NotesScreen extends StatelessWidget {
                     onOrderChanged: (noteOrder) {
                       viewModel.onEvent(NotesEvent.changeOrder(noteOrder));
                     },
-                  )
-                      : Container(),
+                  ) : Container(),
                 ),
                 ...state.notes
                     .map((note) => GestureDetector(
@@ -88,16 +87,9 @@ class NotesScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          // final repository = context.read<NoteRepository>();
-                          // final nextScreen = AddEditNoteScreen(
-                          //   note: note,
-                          // );
-                          // final viewModel =
-                          // AddEditNoteViewModel(repository, note: note);
-
                           return ChangeNotifierProvider(
-                            // factory로 새로 생성해서 전달됨
-                            create: (_) => getIt.get<AddEditNoteViewModel>(),
+                            // factory로 새로 생성해서 전달 & ..setNote 값을 함께 전달함
+                            create: (_) => getIt.get<AddEditNoteViewModel>()..setNote(note),
                             child: AddEditNoteScreen(note: note),
                           );
                         },
