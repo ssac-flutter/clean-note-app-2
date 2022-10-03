@@ -37,6 +37,8 @@ class NotesViewModel with ChangeNotifier {
   // required List<Note> notes,}) = _NotesState;
   Future<void> _loadNotes() async {
     List<Note> notes = await repository.getNotes();
+    // 정렬
+    notes.sort((a,b) => -a.timestamp.compareTo(b.timestamp));
     _state = state.copyWith(
       notes: notes,
     );
