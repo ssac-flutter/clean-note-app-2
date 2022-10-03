@@ -18,7 +18,10 @@ class NotesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your note', style: TextStyle(fontSize: 30),),
+        title: const Text(
+          'Your note',
+          style: TextStyle(fontSize: 30),
+        ),
         actions: [
           IconButton(
             onPressed: () {},
@@ -31,7 +34,7 @@ class NotesScreen extends StatelessWidget {
         onPressed: () async {
           bool? isSaved = await Navigator.push(
             context,
-            MaterialPageRoute(builder:(context) => const AddEditNoteScreen()),
+            MaterialPageRoute(builder: (context) => const AddEditNoteScreen()),
           );
 
           if (isSaved != null && isSaved) {
@@ -44,10 +47,26 @@ class NotesScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children:
-          // NoteItem({Key? key, required this.note, this.onDeleteTap,})
-            state.notes.map((note) =>NoteItem(
-              note: note,
-            ) ).toList(),
+              // NoteItem({Key? key, required this.note, this.onDeleteTap,})
+              state.notes
+                  .map((note) => NoteItem(
+                        note: note,
+                        onDeleteTap: () {
+                          viewModel.onEvent(NotesEvent.deleteNote(note));
+
+                          final snackBar = SnackBar(
+                            content: const Text('노트가 삭제도있습니다'),
+                            action: SnackBarAction(
+                              label: '취소',
+                              onPressed: () {
+                                viewModel.onEvent(const NotesEvent.restoreNote());
+                              },
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                      ))
+                  .toList(),
         ),
       ),
     );
