@@ -19,6 +19,24 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   final _contentController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      final viewModel = context.read<AddEditNoteViewModel>();
+      // viewModel을 read로 불러올 때는 Stream으로 작성
+      viewModel.eventSteam.listen((event) {
+        event.when(saveNote: (){
+          // true: saveNote로 이벤트 처리했음을 전달
+          Navigator.pop(context, true);
+          // notes_screen에서 isSaved 삼항연산으로 구분 처리
+        });
+      });
+
+    });
+
+  }
+  @override
   void dispose() {
     _titleController.dispose();
     _contentController.dispose();

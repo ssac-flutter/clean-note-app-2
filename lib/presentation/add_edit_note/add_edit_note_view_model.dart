@@ -1,16 +1,22 @@
+import 'dart:async';
+
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/domain/repository/note_repository.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_event.dart';
+import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_ui_event.dart';
 import 'package:clean_note_app_2/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 class AddEditNoteViewModel with ChangeNotifier {
-  // mvvm 방식, use_case 사용한함
+  // mvvm 방식, use_case 사용안하는 경우
   final NoteRepository repository;
 
   int _color = roseBud.value;
-
   int get color => _color;
+
+  // 이벤트 발생할 때마다 _eventController에 넣어서 ui initState()에 전달한다
+  final _eventController = StreamController<AddEditNoteUiEvent>();
+  Stream<AddEditNoteUiEvent> get eventSteam => _eventController.stream;
 
   AddEditNoteViewModel(this.repository);
 
@@ -52,5 +58,7 @@ class AddEditNoteViewModel with ChangeNotifier {
         ),
       );
     }
+    //_saveNote 처리할 때마다, screen의 initState에 넣어준다.
+    _eventController.add(const AddEditNoteUiEvent.saveNote());
   }
 }
