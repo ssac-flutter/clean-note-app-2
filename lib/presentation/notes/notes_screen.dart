@@ -1,5 +1,7 @@
+import 'package:clean_note_app_2/domain/repository/note_repository.dart';
 import 'package:clean_note_app_2/domain/util/note_order.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_screen.dart';
+import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:clean_note_app_2/presentation/notes/components/note_item.dart';
 import 'package:clean_note_app_2/presentation/notes/components/order_section.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_event.dart';
@@ -24,7 +26,7 @@ class NotesScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            // notes_event에 toggleOrderSection추가
+            // 먼저 notes_event에 toggleOrderSection 추가
             onPressed: () {
               viewModel.onEvent(const NotesEvent.toggleOrderSection());
             },
@@ -37,7 +39,20 @@ class NotesScreen extends StatelessWidget {
         onPressed: () async {
           bool? isSaved = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddEditNoteScreen()),
+            //MaterialPageRoute(
+            //    builder: (context) => const AddEditNoteScreen()));
+            MaterialPageRoute(
+              builder: (context) {
+                final repository = context.read<NoteRepository>();
+                const nextScreen = AddEditNoteScreen();
+                final viewModel = AddEditNoteViewModel(repository);
+
+                return ChangeNotifierProvider(
+                  create: (_) => viewModel,
+                  child: nextScreen,
+                );
+              },
+            ),
           );
 
           if (isSaved != null && isSaved) {
@@ -68,7 +83,19 @@ class NotesScreen extends StatelessWidget {
                         bool? isSaved = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddEditNoteScreen(note: note),
+                            builder: (context) {
+                              final repository = context.read<NoteRepository>();
+                              final nextScreen = AddEditNoteScreen(
+                                note: note,
+                              );
+                              final viewModel =
+                                  AddEditNoteViewModel(repository, note: note);
+
+                              return ChangeNotifierProvider(
+                                create: (_) => viewModel,
+                                child: nextScreen,
+                              );
+                            },
                             // 페이지 넘어가면, initState()에서 받아서 호출
                           ),
                         );

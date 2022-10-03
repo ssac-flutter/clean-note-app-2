@@ -35,16 +35,20 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
 
     Future.microtask(() {
       final viewModel = context.read<AddEditNoteViewModel>();
+
       // viewModel을 read로 불러올 때는 Stream으로 작성
       _streamSubscription = viewModel.eventSteam.listen((event) {
-        event.when(saveNote: () {
-          // true: saveNote로 이벤트 처리했음을 전달
-          Navigator.pop(context, true);
-          // notes_screen에서 isSaved 삼항연산으로 구분 처리
-        }, showSnackBar: (String message) {
-          final snackBar = SnackBar(content: Text(message));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        });
+        event.when(
+          saveNote: () {
+            // true: saveNote로 이벤트 처리했음을 전달
+            Navigator.pop(context, true);
+            // notes_screen에서 isSaved 삼항연산으로 구분 처리
+          },
+          showSnackBar: (String message) {
+            final snackBar = SnackBar(content: Text(message));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+        );
       });
     });
   }
@@ -73,55 +77,58 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<AddEditNoteViewModel>();
     return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
-        color: Color(viewModel.color),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: noteColors
-                  .map(
-                    (color) => InkWell(
-                      onTap: () {
-                        viewModel.onEvent(
-                          AddEditNoteEvent.changeColor(color.value),
-                        );
-                      },
-                      // Widget _buildBackgroundColor({required Color color, required bool selected})
-                      child: _buildBackgroundColor(
-                        color: color,
-                        selected: viewModel.color == color.value,
+      body: SafeArea(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          padding: const EdgeInsets.fromLTRB(16, 30, 16, 16),
+          color: Color(viewModel.state.color),
+          child: ListView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: noteColors
+                    .map(
+                      (color) => InkWell(
+                        onTap: () {
+                          viewModel.onEvent(
+                            AddEditNoteEvent.changeColor(color.value),
+                          );
+                        },
+                        // Widget _buildBackgroundColor({required Color color, required bool selected})
+                        child: _buildBackgroundColor(
+                          color: color,
+                          selected: viewModel.state.color == color.value,
+                        ),
                       ),
+                    )
+                    .toList(),
+              ),
+              const SizedBox(height: 26),
+              TextField(
+                controller: _titleController,
+                maxLines: 1,
+                style: Theme.of(context).textTheme.headline5!.copyWith(
+                      color: darkGray,
                     ),
-                  )
-                  .toList(),
-            ),
-            TextField(
-              controller: _titleController,
-              maxLines: 1,
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                    color: darkGray,
-                  ),
-              decoration: const InputDecoration(
-                hintText: '제목을 입력하세요',
-                hintStyle: TextStyle(color: Colors.black),
-                border: InputBorder.none,
+                decoration: const InputDecoration(
+                  hintText: '제목을 입력하세요',
+                  hintStyle: TextStyle(color: Colors.black),
+                  border: InputBorder.none,
+                ),
               ),
-            ),
-            TextField(
-              controller: _contentController,
-              maxLines: null,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    color: darkGray,
-                  ),
-              decoration: const InputDecoration(
-                hintText: '내용을 입력하세요',
-                border: InputBorder.none,
+              TextField(
+                controller: _contentController,
+                maxLines: null,
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      color: darkGray,
+                    ),
+                decoration: const InputDecoration(
+                  hintText: '내용을 입력하세요',
+                  border: InputBorder.none,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

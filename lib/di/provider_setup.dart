@@ -43,21 +43,8 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   return [
     ChangeNotifierProvider(create: (_) => notesViewModel),
-    ChangeNotifierProvider(create: (_) => addEditNoteViewModel)
+    // ChangeNotifierProvider(create: (_) => addEditNoteViewModel)
+    Provider(create: (_) => repository),
   ];
 
-  // db에서는 사실상 필요없게 됨
-  // List<SingleChildWidget> independentModels = [];
-  //
-  // List<SingleChildWidget> dependentModels = [];
-  //
-  // List<SingleChildWidget> viewModels = [];
-  //
-  // List<SingleChildWidget> globalProviders = [
-  //   ...independentModels,
-  //   ...dependentModels,
-  //   ...viewModels,
-  // ];
-  //
-  // return globalProviders;
 }

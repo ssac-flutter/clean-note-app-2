@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/domain/repository/note_repository.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_event.dart';
+import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_state.dart';
 import 'package:clean_note_app_2/presentation/add_edit_note/add_edit_note_ui_event.dart';
 import 'package:clean_note_app_2/ui/colors.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,12 @@ class AddEditNoteViewModel with ChangeNotifier {
   // mvvm 방식, use_case 사용안하는 경우
   final NoteRepository repository;
 
-  int _color = roseBud.value;
+  // int _color = roseBud.value;
+  // int get color => _color;
 
-  int get color => _color;
+  AddEditNoteState _state = AddEditNoteState(color: roseBud.value);
+
+  AddEditNoteState get state => _state;
 
   // 이벤트 발생할 때마다 _eventController에 넣어서 ui initState()에 전달할때
   // 여러번 listen할 수 있게 하는 broadcast()와 screen에서 한번만 불러오게 하는 Subscription 처리한다
@@ -21,7 +25,13 @@ class AddEditNoteViewModel with ChangeNotifier {
 
   Stream<AddEditNoteUiEvent> get eventSteam => _eventController.stream;
 
-  AddEditNoteViewModel(this.repository);
+  AddEditNoteViewModel(this.repository, {Note? note}) {
+     _state = state.copyWith (
+       note: note,
+       color: note?.color ?? roseBud.value,
+     );
+     notifyListeners();
+  }
 
   void onEvent(AddEditNoteEvent event) {
     event.when(
@@ -31,7 +41,8 @@ class AddEditNoteViewModel with ChangeNotifier {
   }
 
   Future<void> _changeColor(int color) async {
-    _color = color;
+    // _color = state.color;
+    _state = state.copyWith(color: color);
     notifyListeners();
   }
 
@@ -46,7 +57,7 @@ class AddEditNoteViewModel with ChangeNotifier {
         Note(
           title: title,
           content: content,
-          color: _color,
+          color: _state.color,
           timestamp: DateTime
               .now()
               .millisecondsSinceEpoch,
@@ -59,7 +70,7 @@ class AddEditNoteViewModel with ChangeNotifier {
           id: id,
           title: title,
           content: content,
-          color: _color,
+          color: _state.color,
           timestamp: DateTime
               .now()
               .millisecondsSinceEpoch,
