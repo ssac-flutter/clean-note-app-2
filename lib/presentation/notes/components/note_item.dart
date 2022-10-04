@@ -58,7 +58,7 @@ class NoteItem extends StatelessWidget {
                   // Function onDeleteTap으로 nullable이 아니면, call() 생략 가능
                   // onDeleteTap;
                 },
-                child: const Icon(Icons.delete),
+                child: const Icon(Icons.delete, color: Colors.black54,),
               )),
         ],
       ),

@@ -102,7 +102,7 @@ class NotesScreen extends StatelessWidget {
                       viewModel.onEvent(NotesEvent.deleteNote(note));
 
                       final snackBar = SnackBar(
-                        content: const Text('노트가 삭제도있습니다'),
+                        content: const Text('노트가 삭제됩니다'),
                         action: SnackBarAction(
                           label: '취소',
                           onPressed: () {
