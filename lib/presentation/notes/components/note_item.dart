@@ -1,10 +1,12 @@
 import 'package:clean_note_app_2/domain/model/note.dart';
 import 'package:clean_note_app_2/ui/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NoteItem extends StatelessWidget {
   final Note note;
   Function? onDeleteTap;
+
   // 반드시 Function 구현하려면 nullable(?)을 빼면 됨
   NoteItem({
     Key? key,
@@ -21,7 +23,7 @@ class NoteItem extends StatelessWidget {
           Container(
             // Stack으로 감싼 Container는 width 설정 필요
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Color(note.color),
@@ -29,6 +31,14 @@ class NoteItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  note.timestamp.toString(),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade500,
+                  ),
+                ),
+                const SizedBox(height: 4),
                 Text(
                   note.title,
                   maxLines: 1,
@@ -58,7 +68,10 @@ class NoteItem extends StatelessWidget {
                   // Function onDeleteTap으로 nullable이 아니면, call() 생략 가능
                   // onDeleteTap;
                 },
-                child: const Icon(Icons.delete, color: Colors.black54,),
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.black54,
+                ),
               )),
         ],
       ),

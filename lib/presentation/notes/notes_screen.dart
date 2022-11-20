@@ -66,13 +66,13 @@ class NotesScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            DateFormat.yMMMMd().format(DateTime.now()),
+                            DateFormat.yMMMMd().format(DateTime.now().toLocal()),
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                                fontSize: 14, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 6),
                           const Text(
-                            '오늘',
+                            '오늘의 운세',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
@@ -97,7 +97,7 @@ class NotesScreen extends StatelessWidget {
                             viewModel.onEvent(const NotesEvent.loadNotes());
                           }
                         },
-                        child: const Text("+ Add Note"),
+                        child: const Text("+ 노트 추가"),
                       ),
                     ],
                   ),
@@ -113,21 +113,21 @@ class NotesScreen extends StatelessWidget {
                     selectedTextColor: Colors.white,
                     dateTextStyle: GoogleFonts.lato(
                       textStyle: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: Colors.grey,
                       ),
                     ),
                     dayTextStyle: GoogleFonts.lato(
                       textStyle: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: Colors.grey,
                       ),
                     ),
                     monthTextStyle: GoogleFonts.lato(
                       textStyle: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: Colors.grey,
                       ),
