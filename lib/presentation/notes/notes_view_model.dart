@@ -100,4 +100,11 @@ class NotesViewModel with ChangeNotifier {
       _loadNotes();
     }
   }
+
+  DateTime _selectedDate = DateTime.now().toLocal();
+
+  void dateChanged(date) {
+      _selectedDate = date;
+  }
+
 }
