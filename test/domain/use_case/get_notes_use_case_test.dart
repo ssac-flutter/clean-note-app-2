@@ -20,8 +20,8 @@ void main () {
     final getNotes = GetNotesUseCase(repository);
     // fakeDate로 동작 정의하기
     when(repository.getNotes()).thenAnswer((_) async => [
-      const Note(title: 'title', content: 'content', color: 0, timestamp: 1),
-      const Note(title: 'title2', content: 'content2', color: 1, timestamp: 2),
+      const Note(title: 'title', content: 'content', color: 0, timestamp:  1),
+      const Note(title: 'title2', content: 'content2', color: 1, timestamp:  2),
     ]);
 
     List<Note> result = await getNotes(const NoteOrder.date(OrderType.descending()));
