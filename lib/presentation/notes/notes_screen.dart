@@ -114,26 +114,6 @@ class NotesScreen extends StatelessWidget {
               ],
             ),
           ),
-          // floatingActionButton: FloatingActionButton(
-          //   onPressed: () async {
-          //     bool? isSaved = await Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) {
-          //           return ChangeNotifierProvider(
-          //             create: (_) => getIt.get<AddEditNoteViewModel>(),
-          //             child: const AddEditNoteScreen(),
-          //           );
-          //         },
-          //       ),
-          //     );
-          //
-          //     if (isSaved != null && isSaved) {
-          //       viewModel.onEvent(const NotesEvent.loadNotes());
-          //     }
-          //   },
-          //   child: const Icon(Icons.add),
-          // ),
 
         );
       },
