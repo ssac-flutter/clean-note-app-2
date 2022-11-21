@@ -103,6 +103,8 @@ class NotesViewModel with ChangeNotifier {
 
   DateTime _selectedDate = DateTime.now().toLocal();
 
+  DateTime get selectedDate => _selectedDate;
+
   void dateChanged(date) {
       _selectedDate = date;
   }
