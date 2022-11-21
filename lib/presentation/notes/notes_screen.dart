@@ -57,87 +57,14 @@ class NotesScreen extends StatelessWidget {
                         )
                       : Container(),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            DateFormat.yMMMMd().format(DateTime.now().toLocal()),
-                            style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 6),
-                          const Text(
-                            '오늘의 운세',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          bool? isSaved = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ChangeNotifierProvider(
-                                  create: (_) =>
-                                      getIt.get<AddEditNoteViewModel>(),
-                                  child: const AddEditNoteScreen(),
-                                );
-                              },
-                            ),
-                          );
 
-                          if (isSaved != null && isSaved) {
-                            viewModel.onEvent(const NotesEvent.loadNotes());
-                          }
-                        },
-                        child: const Text("+ 노트 추가"),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 20, left: 20),
-                  child: DatePicker(
-                    DateTime.now().toLocal(),
-                    height: 100,
-                    width: 80,
-                    initialSelectedDate: DateTime.now().toLocal(),
-                    selectionColor: Colors.black87,
-                    selectedTextColor: Colors.white,
-                    dateTextStyle: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    dayTextStyle: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    monthTextStyle: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    // Today 날짜 선택하면, 입력된 데이터 호출!!
-                    onDateChange: (date) {
-                      viewModel.dateChanged(date);
-                    },
-                  ),
-                ),
+                // addNoteBar
+                _addNoteBar(context, viewModel),
+
+                // addTimeLine
+                _addTimeLine(viewModel),
+
+                // notes list
                 ...state.notes
                     .map((note) => GestureDetector(
                           onTap: () async {
@@ -211,48 +138,90 @@ class NotesScreen extends StatelessWidget {
     );
   }
 
-// _addTaskBar() {
-//   return Container(
-//     margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-//     child: Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               DateFormat.yMMMMd().format(DateTime.now()),
-//               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-//             ),
-//             const SizedBox(height: 6),
-//             const Text(
-//               'Today',
-//               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//             ),
-//           ],
-//         ),
-//         ElevatedButton(onPressed: () async {
-//           bool? isSaved = await Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) {
-//                 return ChangeNotifierProvider(
-//                   create: (_) => getIt.get<AddEditNoteViewModel>(),
-//                   child: const AddEditNoteScreen(),
-//                 );
-//               },
-//             ),
-//           );
-//
-//           if (isSaved != null && isSaved) {
-//             viewModel.onEvent(const NotesEvent.loadNotes());
-//           }
-//         },
-//           child: const Text("+ Add Task"),
-//         ),
-//       ],
-//     ),
-//   );
-// }
+  Widget _addNoteBar(BuildContext context, NotesViewModel viewModel) {
+    return  Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                DateFormat.yMMMMd().format(DateTime.now().toLocal()),
+                style: const TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                '오늘의 운세',
+                style: TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              bool? isSaved = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ChangeNotifierProvider(
+                      create: (_) =>
+                          getIt.get<AddEditNoteViewModel>(),
+                      child: const AddEditNoteScreen(),
+                    );
+                  },
+                ),
+              );
 
+              if (isSaved != null && isSaved) {
+                viewModel.onEvent(const NotesEvent.loadNotes());
+              }
+            },
+            child: const Text("+ 노트 추가"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _addTimeLine(NotesViewModel viewModel) {
+    return Container(
+      margin: const EdgeInsets.only(top: 20, left: 20),
+      child: DatePicker(
+        DateTime.now().toLocal(),
+        height: 100,
+        width: 80,
+        initialSelectedDate: DateTime.now().toLocal(),
+        selectionColor: Colors.black87,
+        selectedTextColor: Colors.white,
+        dateTextStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
+        ),
+        dayTextStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
+        ),
+        monthTextStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
+        ),
+        // Today 날짜 선택하면, 입력된 데이터 호출!!
+        onDateChange: (date) {
+          viewModel.dateChanged(date);
+        },
+      ),
+    );
+  }
 }
