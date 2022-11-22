@@ -107,6 +107,7 @@ class NotesViewModel with ChangeNotifier {
 
   void dateChanged(date) {
     _selectedDate = date;
+    // notifyListeners 잊지 말것!!
     notifyListeners();
   }
 }

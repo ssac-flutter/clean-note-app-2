@@ -64,12 +64,13 @@ class NotesScreen extends StatelessWidget {
                 // addTimeLine
                 _addTimeLine(viewModel),
 
-                // notes list time_line 같은 날짜만 호출하기 과제
-                // state.notes[index].timestamp
-                // == DateFormat.yMd().format(viewModel.selectedDate) 데이터만 호출하려함!!
+                // notes list time_line 같은 날짜만 호출하기 where 조건
                 ...state.notes
-                .where((note) => DateFormat.yMd().format(viewModel.selectedDate)
-                == DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(note.timestamp)))
+                    .where((note) =>
+                        DateFormat.yMd().format(viewModel.selectedDate) ==
+                        DateFormat.yMd().format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                note.timestamp)))
                     .map((note) => GestureDetector(
                           onTap: () async {
                             bool? isSaved = await Navigator.push(
