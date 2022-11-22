@@ -56,7 +56,7 @@ class NotesViewModel with ChangeNotifier {
           isOrderSectionVisible: !state.isOrderSectionVisible,
         );
         notifyListeners();
-    },
+      },
     );
   }
 
@@ -68,7 +68,7 @@ class NotesViewModel with ChangeNotifier {
     // List<Note> notes = await getNotes();
 
     // notes_state에 noteOrder 추가한 후 인자로 받아옴옴
-   List<Note> notes = await useCases.getNotes(state.noteOrder);
+    List<Note> notes = await useCases.getNotes(state.noteOrder);
 
     //List<Note> notes = await repository.getNotes();
     //notes.sort((a,b) => -a.timestamp.compareTo(b.timestamp));await repository.getNotes();
@@ -106,7 +106,6 @@ class NotesViewModel with ChangeNotifier {
   DateTime get selectedDate => _selectedDate;
 
   void dateChanged(date) {
-      _selectedDate = date;
+    _selectedDate = date;
   }
-
 }

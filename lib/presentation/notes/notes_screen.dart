@@ -114,14 +114,13 @@ class NotesScreen extends StatelessWidget {
               ],
             ),
           ),
-
         );
       },
     );
   }
 
   Widget _addNoteBar(BuildContext context, NotesViewModel viewModel) {
-    return  Container(
+    return Container(
       margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,14 +130,13 @@ class NotesScreen extends StatelessWidget {
             children: [
               Text(
                 DateFormat.yMMMMd().format(DateTime.now().toLocal()),
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 6),
               const Text(
                 '오늘의 운세',
-                style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -149,8 +147,7 @@ class NotesScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return ChangeNotifierProvider(
-                      create: (_) =>
-                          getIt.get<AddEditNoteViewModel>(),
+                      create: (_) => getIt.get<AddEditNoteViewModel>(),
                       child: const AddEditNoteScreen(),
                     );
                   },
@@ -199,7 +196,7 @@ class NotesScreen extends StatelessWidget {
             color: Colors.grey,
           ),
         ),
-        // Today 날짜 선택하면, 입력된 데이터 호출!!
+        // 오늘의 운세 날짜 선택하면, 입력된 데이터 호출!!
         onDateChange: (date) {
           viewModel.dateChanged(date);
         },
