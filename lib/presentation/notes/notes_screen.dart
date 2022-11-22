@@ -68,6 +68,8 @@ class NotesScreen extends StatelessWidget {
                 // state.notes[index].timestamp
                 // == DateFormat.yMd().format(viewModel.selectedDate) 데이터만 호출하려함!!
                 ...state.notes
+                .where((note) => DateFormat.yMd().format(viewModel.selectedDate)
+                == DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(note.timestamp)))
                     .map((note) => GestureDetector(
                           onTap: () async {
                             bool? isSaved = await Navigator.push(

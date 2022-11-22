@@ -32,7 +32,8 @@ class NoteItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  note.timestamp.toString(),
+                  DateFormat.yMMMd()
+                      .format(DateTime.fromMillisecondsSinceEpoch(note.timestamp)),
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey.shade500,
