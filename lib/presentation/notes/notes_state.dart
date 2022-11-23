@@ -14,6 +14,7 @@ class NotesState with _$NotesState {
     required List<Note> notes,
     required NoteOrder noteOrder,
     required bool isOrderSectionVisible,
+    required DateTime initialSelectedDate,
   }) = _NotesState;
 
 // factory NotesState.fromJson(Map<String, Object?> json) => _$NotesStateFromJson(json);
