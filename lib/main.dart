@@ -1,6 +1,7 @@
 import 'package:clean_note_app_2/di/di_setup.dart';
 import 'package:clean_note_app_2/presentation/notes/notes_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'util/color_scheme.dart';
 
 void main() async {
@@ -31,6 +32,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ko', 'KR'),
+      ],
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: lightColorScheme,

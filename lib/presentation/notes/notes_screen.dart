@@ -67,8 +67,8 @@ class NotesScreen extends StatelessWidget {
                 // notes list time_line 같은 날짜만 호출하기 where 조건
                 ...state.notes
                     .where((note) =>
-                        DateFormat.yMd().format(viewModel.selectedDate) ==
-                        DateFormat.yMd().format(
+                        DateFormat('yyyy-MM-dd').format(viewModel.selectedDate) ==
+                        DateFormat('yyyy-MM-dd').format(
                             DateTime.fromMillisecondsSinceEpoch(
                                 note.timestamp)))
                     .map((note) => GestureDetector(
@@ -132,7 +132,7 @@ class NotesScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                DateFormat.yMMMMd().format(DateTime.now().toLocal()),
+                DateFormat('yyyy-MM-dd').format(DateTime.now().toLocal()),
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
@@ -203,6 +203,7 @@ class NotesScreen extends StatelessWidget {
         onDateChange: (date) {
           viewModel.dateChanged(date);
         },
+        locale: "ko-KR",
       ),
     );
   }

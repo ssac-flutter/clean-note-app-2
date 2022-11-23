@@ -33,11 +33,11 @@ class NoteItem extends StatelessWidget {
               children: [
                 Text(
                   // int timestamp 포맷 타입 변환 방법
-                  DateFormat.yMMMd().format(
+                  DateFormat('yyyy-MM-dd').format(
                       DateTime.fromMillisecondsSinceEpoch(note.timestamp)),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade500,
+                    color: Colors.black54,
                   ),
                 ),
                 const SizedBox(height: 4),
